@@ -1,0 +1,42 @@
+POST http://localhost:8080/rest/score
+Content-Type: application/json
+
+{
+  "game": "dots",
+  "player": "janeviemus",
+  "points": 20,
+  "playedOn": "2019-03-25T12:40:33"
+  }
+
+<> 2019-04-09T033052.500.json
+
+###
+
+POST http://localhost:8080/rest/score
+Content-Type: application/json
+
+{
+  "game": "dots",
+  "player": "janeviemus",
+  "points": 20,
+  "playedOn": "2019-03-25T12:40:33"
+  }
+
+<> 2019-04-09T033005.500.json
+
+###
+
+POST http://localhost:8080/rest/score
+Content-Type: application/json
+
+{
+  "game": "dots",
+  "player": "janeviemus",
+  "points": 20,
+  "playedOn": "2019-03-25T12:40:33"
+  }
+
+<> 2019-04-09T032908.500.json
+
+###
+

@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title style="margin-bottom: 5em;">Dots</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+
+    <link rel="stylesheet" type="text/css"
+          th:href="@{https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="/css/dots-novorolnik.css"/>
+    <link rel="stylesheet" th:href="@{/css/dots-novorolnik.css}"/>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+<!--style="box-shadow: 0 0 20px #999;-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img th:src="@{/images/dots/novorolnik/kpi-logo.png}" alt="No image found " height="30px" width="auto" />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Dots<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user">Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<h1 align="center">Dots</h1>
+
+<!-- Here add rendering of your game field-->
+<div class="container-fluid" style="margin: 2em;">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="row">
+                Username:  &nbsp<div th:text=" ${webUI.getUserName()}"></div>
+            </div>
+            <div class="row">
+                <form name="addres" id="myDIV" method="get" action="dots-novorolnik">
+                     <span><input type="text" name="command" class="resfield"
+                     value="Enter your Name"/></span>
+                    <input type="submit" class="btn"/>
+                </form>
+            </div>
+            <div class="row">
+                <br>
+                <th th:text="'Average Rating: ' + ${webUI.getAvgRating()} + '/10'"/>
+            </div>
+            <div class="row">
+                <br>
+                <form action="/gamestudio_lukas_novorolnik/dots-novorolnik/rate" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="rating">Rating:</label>
+                            <input type="text"  name="rating" class="form-control" id="rating" th:value="${rating?.rating}"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Rate</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row" style="justify-content: center; margin-bottom: 2em;">
+                <div th:utext="${webUI.renderAsHtml()}"/>
+            </div>
+            <div class="row" style="justify-content: center;">
+                    <a href="?command=new"><button type="button" class="btn btn-light" style="margin: 2em">New Game</button></a>
+                    <a href="?command=confirm"><button type="button" class="btn btn-light" style="margin: 2em">Confirm Move</button></a>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                <form action="/gamestudio_lukas_novorolnik/dots-novorolnik/comment" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="comment">Comment:</label>
+                            <input type="text"  name="comment" class="form-control" id="comment" th:value="${comment?.comment}"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Comment</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:if="${webUI.isGameLost()}" class="game-status game-status--lost">Game Over</div>
+<div th:if="${webUI.isGameWon()}" class="game-status game-status--won"
+     th:text="'No more moves! Your score is ' + ${webUI.getScore()}">
+</div>
+
+<!--<form action="#" th:action="@{/tototu}" th:object="${greeting}" method="post">-->
+<!--    <p>Id: <input type="text" th:field="*{id}" /></p>-->
+<!--    <p>Message: <input type="text" th:field="*{content}" /></p>-->
+<!--    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>-->
+<!--</form>-->
+<hr>
+<div class="container-fluid">
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#scores" style="margin: 1em">Show Scores</button>
+    <div class="row collapse" id="scores">
+        <div class="container">
+        <h2>Scores</h2>
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="score: ${scores}">
+                    <td th:text="${score.player}"></td>
+                    <td th:text="${score.points}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#comments" style=" margin: 1em;">Show Comments</button>
+    <div class="row collapse" id="comments">
+        <div class="container">
+        <h2>Comments</h2>
+        <table style="width: 100%;">
+            <thead>
+            <tr>
+                <th>Player</th>
+                <th>Comment</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comment: ${comments}">
+                <td th:text="${comment.player}"></td>
+                <td th:text="${comment.comment}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+
+<footer class="container-fluid text-center" id="footer">
+    <div class="container">
+        <img th:src="@{/images/dots/novorolnik/logo496x496-transparent.png}" height="150px" width="auto" style="margin-right: 1em">
+        <img th:src="@{/images/dots/novorolnik/logo-fei.png}" height="140px" width="auto" style="margin-left: 1em">
+    </div>
+</footer>
+
+</body>
+</html>
